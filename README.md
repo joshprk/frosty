@@ -18,8 +18,13 @@ The fastest way to get started with Nix packaging and configuration.
   };
 
   outputs = inputs: inputs.frosty.mkPythonProject {
+    # Selects nixpkgs channel from flake inputs
     inherit (inputs) nixpkgs;
+
+    # Selects Python package for all systems
     python = pkgs: pkgs.python3;
+
+    # Path to Python project with a pyproject.toml
     src = ./.;
   };
 }
