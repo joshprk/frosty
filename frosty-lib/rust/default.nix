@@ -4,15 +4,12 @@ inputs: {
     rust,
     src,
     allowUnfree ? false,
-
     name,
     version,
-
     buildInputs,
     buildPhase,
     installPhase,
     builder,
-
     shellHook,
   }: let
     lib = nixpkgs.lib;
@@ -22,13 +19,13 @@ inputs: {
       import nixpkgs {
         inherit
           system
-          allowUnfree;
+          allowUnfree
+          ;
 
         overlays = [
           (import inputs.rust-overlay)
         ];
       };
-
   in {
     packages = forAllSystems (system: let
       pkgs = getPkgs system;
@@ -42,10 +39,11 @@ inputs: {
           buildPhase
           installPhase
           builder
-          shellHook;
+          shellHook
+          ;
 
-        buildInputs = 
-          with pkgs; [(rust rust-bin)]
+        buildInputs = with pkgs;
+          [(rust rust-bin)]
           // systemBuildInputs;
       };
     });

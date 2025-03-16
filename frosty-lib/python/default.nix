@@ -16,7 +16,8 @@ inputs: {
       import nixpkgs {
         inherit
           system
-          allowUnfree;
+          allowUnfree
+          ;
       };
   in {
     devShells = forAllSystems (system: let
