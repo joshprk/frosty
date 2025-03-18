@@ -1,7 +1,4 @@
-let
-  frosty = frosty;
-  pkgs = pkgs;
-in {
+{
   description = "Frosty Lib";
 
   inputs = {
