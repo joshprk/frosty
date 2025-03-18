@@ -39,8 +39,10 @@ inputs: let
   aliases = let
     self = inputs.self;
   in {
-    inherit (self.dsl)
-      fn;
+    inherit
+      (self.dsl)
+      fn
+      ;
   };
 
   extraOptions = let
