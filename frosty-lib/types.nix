@@ -16,4 +16,7 @@ in {
   float = genType lib.types.float;
   str = genType lib.types.str;
   bool = genType lib.types.bool;
+
+  path = genType lib.types.path;
+  package = genType lib.types.package;
 }
