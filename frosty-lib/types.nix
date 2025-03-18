@@ -13,7 +13,7 @@ in {
   anything = genType lib.types.anything;
 
   int = genType lib.types.int;
-  float = genType.lib.types.float;
+  float = genType lib.types.float;
   str = genType lib.types.str;
   bool = genType lib.types.bool;
 }
