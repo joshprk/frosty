@@ -1,35 +1,35 @@
 {lib, ...}: {
-  /**
-    Creates a function f: X -> Y where the types of X and Y can be specified and
-    checked for type errors before execution.
+  /*
+  Creates a function f: X -> Y where the types of X and Y can be specified and
+  checked for type errors before execution.
 
-    # Example
+  # Example
 
-    ```nix
-    addThree = frosty.fn (frosty.types.int) (frosty.types.int)
-      (n: n + 3)
-    =>
-    addThree 3
-    =>
-    6
-    ```
+  ```nix
+  addThree = frosty.fn (frosty.types.int) (frosty.types.int)
+    (n: n + 3)
+  =>
+  addThree 3
+  =>
+  6
+  ```
 
-    # Type
+  # Type
 
-    ```
-    fn :: Unknown -> Unknown -> lambda
-    ```
+  ```
+  fn :: Unknown -> Unknown -> lambda
+  ```
 
-    # Arguments
+  # Arguments
 
-    argType
-    : A single type or an attrset of input argument types.
+  argType
+  : A single type or an attrset of input argument types.
 
-    returnType
-    : A single type which is the expected return type of the lambda
+  returnType
+  : A single type which is the expected return type of the lambda
 
-    lambda
-    : The function to wrap with type-checking
+  lambda
+  : The function to wrap with type-checking
   */
   fn = argType: returnType: lambda: arg: let
     checkArg = value:
