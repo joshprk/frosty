@@ -1,11 +1,10 @@
-{
-  lib,
-  ...
-}: let
+{lib, ...}: let
   genType = type: {
-    inherit (type)
+    inherit
+      (type)
       name
-      check;
+      check
+      ;
     default = null;
     optional = default: (genType type) // {inherit default;};
   };

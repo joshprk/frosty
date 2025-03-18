@@ -3,8 +3,10 @@ inputs: let
   args = {
     inherit inputs;
     inherit lib;
-    inherit (inputs)
-      self;
+    inherit
+      (inputs)
+      self
+      ;
   };
 
   loadLib = path: let
@@ -31,5 +33,15 @@ inputs: let
         else import libPath args;
     };
     imports = map genLibAttrs names;
-  in builtins.listToAttrs imports;
-in loadLib ./.
+  in
+    builtins.listToAttrs imports;
+
+  extraOptions = let
+    nixpkgs = inputs.nixpkgs;
+    forAllSystems = lib.genAttrs lib.systems.flakeExposed;
+  in {
+    formatter =
+      forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
+  };
+in
+  (loadLib ./.) // extraOptions
