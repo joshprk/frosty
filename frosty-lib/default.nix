@@ -36,6 +36,8 @@ inputs: let
   in
     builtins.listToAttrs imports;
 
+  forAllSystems = lib.genAttrs lib.systems.flakeExposed;
+
   aliases = let
     self = inputs.self;
   in {
@@ -43,11 +45,12 @@ inputs: let
       (self.dsl)
       fn
       ;
+
+    inherit forAllSystems;
   };
 
   extraOptions = let
     nixpkgs = inputs.nixpkgs;
-    forAllSystems = lib.genAttrs lib.systems.flakeExposed;
   in {
     formatter =
       forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
