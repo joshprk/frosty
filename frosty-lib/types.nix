@@ -2,7 +2,11 @@
   genType = type: {
     inherit (type) name check;
     default = null;
-    optional = default: (genType type) // {inherit default;};
+    optional = default: let
+      newType = (genType type) // {inherit default;};
+      cond = type.check default;
+      msg = "optional arg is not of type ${type.name}";
+    in lib.throwIfNot cond msg newType;
   };
 in {
   raw = genType lib.types.raw;
@@ -15,4 +19,6 @@ in {
 
   path = genType lib.types.path;
   package = genType lib.types.package;
+
+  listOf = elemType: genType (lib.types.listOf elemType);
 }
