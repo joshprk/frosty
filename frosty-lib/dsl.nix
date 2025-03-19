@@ -41,7 +41,7 @@
             if builtins.hasAttr name arg
             then arg.${name}
             else type.default;
-          cond = type.check resolved;
+          cond = type.check resolved || (argType.default == null);
           msg = ''arg ${name} is not of type ${type.name}'';
         in
           lib.throwIfNot cond msg resolved)
@@ -51,7 +51,7 @@
           if arg != null
           then arg
           else argType.default;
-        cond = argType.check resolved;
+        cond = (argType.check resolved) || (argType.default == null);
         msg = "arg is not of type ${argType.name}";
       in
         lib.throwIfNot cond msg resolved;
