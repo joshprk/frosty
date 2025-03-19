@@ -1,10 +1,6 @@
 inputs: let
   lib = inputs.nixpkgs.lib;
-  args = {
-    inherit inputs;
-    inherit lib;
-    inherit (inputs) self;
-  };
+  args = {inherit lib;} // inputs;
 
   loadLib = path: let
     files = builtins.readDir path;
@@ -33,8 +29,6 @@ inputs: let
   in
     builtins.listToAttrs imports;
 
-  forAllSystems = lib.genAttrs lib.systems.flakeExposed;
-
   aliases = let
     self = inputs.self;
   in {
@@ -48,11 +42,15 @@ inputs: let
       fn
       ;
 
-    inherit forAllSystems;
+    inherit
+      (self.utils)
+      forAllSystems
+      ;
   };
 
   extraOptions = let
     nixpkgs = inputs.nixpkgs;
+    forAllSystems = inputs.self.forAllSystems;
   in {
     formatter =
       forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);
