@@ -4,7 +4,7 @@
     default = null;
     optional = default: let
       newType = (genType type) // {inherit default;};
-      cond = type.check default;
+      cond = (type.check default) || (default == null);
       msg = "optional arg is not of type ${type.name}";
     in lib.throwIfNot cond msg newType;
   };
