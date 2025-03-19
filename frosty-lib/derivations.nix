@@ -35,7 +35,7 @@
       name = self.types.str;
       version = self.types.str;
       src = self.types.path;
-      buildInputs = (self.types.listOf self.types.package).optional [];
+      buildInputs = self.types.anything.optional (pkgs: []);
       buildPhase = self.types.str.optional "";
       installPhase = self.types.str.optional "";
       builder = self.types.path.optional null;
@@ -60,12 +60,13 @@
               name
               version
               src
-              buildInputs
               buildPhase
               installPhase
               builder
               shellHook
               ;
+
+            buildInputs = args.buildInputs pkgs;
           };
         });
 
