@@ -3,6 +3,7 @@
   Produces a flake containing package derivations for all systems.
 
   # Example
+
   ```nix
   mkDerivation {
     name = "printf";
@@ -28,6 +29,42 @@
       ...
     };
   }
+
+  # Type
+
+  ```
+  mkDerivation :: Attrset -> Attrset
+  ```
+
+  # Arguments
+
+  name
+  : The name of the derivation
+
+  version
+  : A string containing the version of the derivation
+
+  src
+  : The path of the derivation source
+
+  buildInputs
+  : A function which takes pkgs to produce a list of packages for building
+
+  buildPhase
+  : A script which builds the derivation
+
+  installPhase
+  : A script which installs the derivation
+
+  shellHook
+  : A script which is executed whenever entering the shell
+
+  nixpkgs
+  : The nixpkgs channel to use
+
+  extraOutputs
+  : An attrset which merged with the generated flake outputs
+
   */
   mkDerivation =
     self.fn

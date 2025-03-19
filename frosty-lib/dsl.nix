@@ -30,6 +30,7 @@
 
   lambda
   : The function to wrap with type-checking
+
   */
   fn = argType: returnType: lambda: arg: let
     checkArg = value:
