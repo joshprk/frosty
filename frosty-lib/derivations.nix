@@ -52,7 +52,7 @@
     in
       rec {
         devShells = self.forAllSystems (system: let
-          pkgs = getPkgs system args.nixpkgs;
+          pkgs = getPkgs args.nixpkgs system;
         in {
           default = pkgs.stdenv.mkDerivation {
             inherit
