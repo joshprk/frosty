@@ -62,7 +62,7 @@
               src
               buildPhase
               installPhase
-              #builder
+              builder
               shellHook
               ;
 
