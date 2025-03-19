@@ -1,5 +1,7 @@
 # Frosty
 
+[![Documentation](https://img.shields.io/badge/docs-click_here-blue)](https://joshprk.github.io/frosty/)
+
 The fastest way to get started with Nix packaging and configuration.
 
 ## Example
