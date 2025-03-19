@@ -3,6 +3,38 @@
   pyproject-nix,
   ...
 }: {
+  /*
+  Produces a Python package flake from pyproject.toml metadata
+
+  # Example
+
+  ```nix
+  mkPythonProject {
+    nixpkgs = import <nixpkgs>;
+    python = pkgs: pkgs.python3;
+    src = ./.;
+  }
+  => <thunk>
+  ```
+
+  # Type
+
+  ```
+  mkPythonProject :: Attrset -> Attrset
+  ```
+
+  # Arguments
+
+  nixpkgs
+  : The nixpkgs channel to use
+
+  python
+  : A function which takes system nixpkgs and returns a Python package
+
+  src
+  : The path to the Python project containing a pyproject.toml file
+
+  */
   mkPythonProject =
     self.fn
     {
