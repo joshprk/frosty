@@ -41,28 +41,35 @@
       builder = self.types.path.optional null;
       shellHook = self.types.str.optional "";
       nixpkgs = self.types.anything;
+      extraOutputs = self.types.anything;
     }
     (self.types.anything)
-    (args: {
-      packages = self.forAllSystems (system: let
-        inherit (args) nixpkgs;
-        pkgs = import nixpkgs {
+    (args: let
+      getPkgs = nixpkgs: system:
+        import nixpkgs {
           inherit system;
         };
-      in {
-        default = pkgs.stdenv.mkDerivation {
-          inherit
-            (args)
-            name
-            version
-            src
-            buildInputs
-            buildPhase
-            installPhase
-            builder
-            shellHook
-            ;
-        };
-      });
-    });
+    in
+      rec {
+        devShells = self.forAllSystems (system: let
+          pkgs = getPkgs system args.nixpkgs;
+        in {
+          default = pkgs.stdenv.mkDerivation {
+            inherit
+              (args)
+              name
+              version
+              src
+              buildInputs
+              buildPhase
+              installPhase
+              builder
+              shellHook
+              ;
+          };
+        });
+
+        packages = devShells;
+      }
+      // args.extraOutputs);
 }
