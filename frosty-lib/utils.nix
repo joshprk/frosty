@@ -84,11 +84,12 @@
       allowUnfree = self.types.bool.optional false;
     }
     (self.types.anything)
-    (args: import args.nixpkgs {
-      inherit
-        (args)
-        system
-        allowUnfree
-        ;
-    });
+    (args:
+      import args.nixpkgs {
+        inherit
+          (args)
+          system
+          allowUnfree
+          ;
+      });
 }
