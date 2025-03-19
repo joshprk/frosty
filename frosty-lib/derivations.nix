@@ -41,7 +41,7 @@
       builder = self.types.path.optional null;
       shellHook = self.types.str.optional "";
       nixpkgs = self.types.anything;
-      extraOutputs = self.types.anything;
+      extraOutputs = self.types.anything.optional {};
     }
     (self.types.anything)
     (args: let
