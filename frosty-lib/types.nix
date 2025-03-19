@@ -1,7 +1,6 @@
 {lib, ...}: let
   genType = type: {
     inherit (type) name check;
-    default = null;
     optional = default: let
       newType = (genType type) // {inherit default;};
       cond = (type.check default) || (default == null);
