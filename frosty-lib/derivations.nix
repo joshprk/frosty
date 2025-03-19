@@ -81,15 +81,13 @@
       extraOutputs = self.types.anything.optional {};
     }
     (self.types.anything)
-    (args: let
-      getPkgs = nixpkgs: system:
-        import nixpkgs {
-          inherit system;
-        };
-    in
+    (args:
       rec {
         devShells = self.forAllSystems (system: let
-          pkgs = getPkgs args.nixpkgs system;
+          pkgs = self.utils.getPkgs {
+            inherit (args) nixpkgs;
+            inherit system;
+          };
         in {
           default = pkgs.stdenv.mkDerivation {
             inherit
