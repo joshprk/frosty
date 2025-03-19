@@ -39,6 +39,11 @@ inputs: let
     self = inputs.self;
   in {
     inherit
+      (self.derivations)
+      mkDerivation
+      ;
+
+    inherit
       (self.dsl)
       fn
       ;
