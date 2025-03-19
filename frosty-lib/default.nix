@@ -43,6 +43,11 @@ inputs: let
       ;
 
     inherit
+      (self.python)
+      mkPythonProject
+      ;
+
+    inherit
       (self.utils)
       forAllSystems
       ;
