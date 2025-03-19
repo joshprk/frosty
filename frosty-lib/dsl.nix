@@ -40,11 +40,11 @@
           resolved =
             if builtins.hasAttr name arg
             then arg.${name}
-            else
-              let
-                cond = builtins.hasAttr "default" type;
-                msg = "required arg ${name} was not given";
-              in lib.throwIfNot cond msg type.default;
+            else let
+              cond = builtins.hasAttr "default" type;
+              msg = "required arg ${name} was not given";
+            in
+              lib.throwIfNot cond msg type.default;
           cond = type.check resolved || (type.default == null);
           msg = ''arg ${name} is not of type ${type.name}'';
         in
@@ -54,11 +54,11 @@
         resolved =
           if arg != null
           then arg
-          else
-            let
-              cond = builtins.hasAttr "default" arg;
-              msg = "required arg was not given";
-            in lib.throwIfNot cond msg argType.default;
+          else let
+            cond = builtins.hasAttr "default" arg;
+            msg = "required arg was not given";
+          in
+            lib.throwIfNot cond msg argType.default;
         cond = (argType.check resolved) || (argType.default == null);
         msg = "arg is not of type ${argType.name}";
       in
