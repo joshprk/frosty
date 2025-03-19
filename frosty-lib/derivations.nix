@@ -35,13 +35,18 @@
       name = self.types.str;
       version = self.types.str;
       src = self.types.path;
-      buildInputs = self.types.str.optional "";
+      buildInputs = (self.types.listOf self.types.package).optional [];
+      buildPhase = self.types.str.optional "";
+      installPhase = self.types.str.optional "";
+      builder = self.types.path.optional null;
+      shellHook = self.types.str.optional "";
       nixpkgs = self.types.anything;
     }
     (self.types.anything)
     (args: {
       packages = self.forAllSystems (system: let
-        pkgs = import args.nixpkgs {
+        inherit (args) nixpkgs;
+        pkgs = import nixpkgs {
           inherit system;
         };
       in {
@@ -52,6 +57,10 @@
             version
             src
             buildInputs
+            buildPhase
+            installPhase
+            builder
+            shellHook
             ;
         };
       });
