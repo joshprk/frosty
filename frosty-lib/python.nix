@@ -1,6 +1,5 @@
 {
   self,
-  lib,
   pyproject-nix,
   ...
 }: {
@@ -18,7 +17,18 @@
       };
     in {
       packages = self.forAllSystems (system: let
+        pkgs = self.utils.getPkgs {
+          inherit (args) nixpkgs;
+          inherit system;
+        };
+
+        pythonPackage = args.python pkgs;
+
+        attrs = project.renderers.buildPythonPackage {
+          python = pythonPackage;
+        };
       in {
+        default = pythonPackage.pkgs.buildPythonPackage attrs;
       });
     });
 }
