@@ -3,10 +3,7 @@ inputs: let
   args = {
     inherit inputs;
     inherit lib;
-    inherit
-      (inputs)
-      self
-      ;
+    inherit (inputs) self;
   };
 
   loadLib = path: let
