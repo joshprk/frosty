@@ -16,12 +16,16 @@
     '';
   }
   => {
-    packages.default = pkgs.stdenv.mkDerivation {
-      inherit (args)
-        name
-        version
-        src
-        buildInputs;
+    packages = {
+      aarch64-linux.default = pkgs.stdenv.mkDerivation {
+        inherit (args)
+          name
+          version
+          src
+          buildInputs;
+      };
+
+      ...
     };
   }
   */
