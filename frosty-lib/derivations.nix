@@ -38,7 +38,7 @@
       buildInputs = self.types.anything.optional (pkgs: []);
       buildPhase = self.types.str.optional "";
       installPhase = self.types.str.optional "";
-      builder = self.types.path.optional null;
+      builder = self.types.path.optional ./default-builder.sh;
       shellHook = self.types.str.optional "";
       nixpkgs = self.types.anything;
       extraOutputs = self.types.anything.optional {};
