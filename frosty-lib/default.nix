@@ -48,6 +48,11 @@ inputs: let
       ;
 
     inherit
+      (self.rust)
+      mkRustPackage
+      ;
+
+    inherit
       (self.utils)
       forAllSystems
       ;
