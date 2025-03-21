@@ -51,21 +51,22 @@
       project = pyproject-nix.lib.project.loadPyproject {
         projectRoot = args.src;
       };
-    in {
-      packages = self.forAllSystems (system: let
-        pkgs = self.utils.getPkgs {
-          inherit (args) nixpkgs;
-          inherit system;
-        };
+    in
+      {
+        packages = self.forAllSystems (system: let
+          pkgs = self.utils.getPkgs {
+            inherit (args) nixpkgs;
+            inherit system;
+          };
 
-        pythonPackage = args.python pkgs;
+          pythonPackage = args.python pkgs;
 
-        attrs = project.renderers.buildPythonPackage {
-          python = pythonPackage;
-        };
-      in {
-        default = pythonPackage.pkgs.buildPythonPackage attrs;
-      });
-    }
-    // args.extraOutputs);
+          attrs = project.renderers.buildPythonPackage {
+            python = pythonPackage;
+          };
+        in {
+          default = pythonPackage.pkgs.buildPythonPackage attrs;
+        });
+      }
+      // args.extraOutputs);
 }

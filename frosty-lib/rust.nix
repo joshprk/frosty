@@ -78,17 +78,17 @@
         (rust-bin: rust-bin.stable.latest.default);
     }
     (self.types.anything)
-    (args:
-      self.derivations.mkDerivation
-      (
-        args
-        // {
-          buildInputs =
-            pkgs: (args.buildInputs pkgs) ++ [(args.rust pkgs.rust-bin)];
-          channel.overlays =
-            args.channel.overlays
-            ++ [(import rust-overlay)];
-        }
-      )
+    (
+      args:
+        self.derivations.mkDerivation
+        (
+          args
+          // {
+            buildInputs = pkgs: (args.buildInputs pkgs) ++ [(args.rust pkgs.rust-bin)];
+            channel.overlays =
+              args.channel.overlays
+              ++ [(import rust-overlay)];
+          }
+        )
     );
 }
