@@ -41,6 +41,7 @@
       nixpkgs = self.types.anything;
       python = self.types.package;
       src = self.types.path;
+      extraOutputs = self.types.anything;
     }
     (self.types.anything)
     (args: let
@@ -62,5 +63,6 @@
       in {
         default = pythonPackage.pkgs.buildPythonPackage attrs;
       });
-    });
+    }
+    // args.extraOutputs);
 }
