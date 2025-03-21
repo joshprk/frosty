@@ -34,6 +34,9 @@
   src
   : The path to the Python project containing a pyproject.toml file
 
+  extraOutputs
+  : An attrset which merged with the generated flake outputs
+
   */
   mkPythonProject =
     self.fn
@@ -41,7 +44,7 @@
       nixpkgs = self.types.anything;
       python = self.types.package;
       src = self.types.path;
-      extraOutputs = self.types.anything;
+      extraOutputs = self.types.anything.optional {};
     }
     (self.types.anything)
     (args: let
