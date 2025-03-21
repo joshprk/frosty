@@ -89,6 +89,7 @@
         inherit
           (args)
           system
+          overlays
           allowUnfree
           ;
       });

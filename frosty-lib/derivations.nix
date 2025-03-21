@@ -62,6 +62,9 @@
   nixpkgs
   : The nixpkgs channel to use
 
+  channel
+  : Pass extra arguments to nixpkgs import
+
   extraOutputs
   : An attrset which merged with the generated flake outputs
 
@@ -78,16 +81,19 @@
       # builder = self.types.path.optional null;
       shellHook = self.types.str.optional "";
       nixpkgs = self.types.anything;
+      channel = self.types.anything.optional {};
       extraOutputs = self.types.anything.optional {};
     }
     (self.types.anything)
     (args:
       rec {
         devShells = self.forAllSystems (system: let
-          pkgs = self.utils.getPkgs {
-            inherit (args) nixpkgs;
-            inherit system;
-          };
+          pkgs =
+            self.utils.getPkgs {
+              inherit (args) nixpkgs;
+              inherit system;
+            }
+            // args.channel;
         in {
           default = pkgs.stdenv.mkDerivation {
             inherit
