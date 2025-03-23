@@ -39,7 +39,7 @@
     self.fn
     {
       nixpkgs = self.types.anything;
-      python = self.types.package;
+      python = self.types.anything;
       src = self.types.path;
     }
     (self.types.anything)
