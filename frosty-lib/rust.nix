@@ -86,7 +86,7 @@
           // {
             buildInputs = pkgs: (args.buildInputs pkgs) ++ [(args.rust pkgs.rust-bin)];
             channel.overlays =
-              args.channel.overlays
+              (args.channel.overlays or [])
               ++ [(import rust-overlay)];
           }
         )
