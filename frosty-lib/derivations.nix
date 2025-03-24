@@ -89,11 +89,11 @@
       rec {
         devShells = self.forAllSystems (system: let
           pkgs =
-            self.utils.getPkgs {
+            self.utils.getPkgs ({
               inherit (args) nixpkgs;
               inherit system;
             }
-            // args.channel;
+            // args.channel);
         in {
           default = pkgs.stdenv.mkDerivation {
             inherit
