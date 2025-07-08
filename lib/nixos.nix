@@ -68,7 +68,7 @@ in {
       readHosts = path: lib.pipe path [
         builtins.readDir
         builtins.attrNames
-        (map (name: path + "/${name}")
+        (map (name: path + "/${name}"))
       ];
       mkSystem = system: lib.nixosSystem {
         specialArgs = {var = cfg.vars;};
