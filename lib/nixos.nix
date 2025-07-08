@@ -25,6 +25,10 @@ in {
 
     nixosModules = mkOption {
       type = with types; nullOr path;
+      apply = opt:
+        if opt != null
+        then lib.filesystem.listFilesRecursive opt
+        else [];
       description = ''
         A path which leads to a directory containing common NixOS modules which
         are to be applied to all hosts in all clusters.
@@ -35,6 +39,10 @@ in {
 
     parts = mkOption {
       type = with types; nullOr path;
+      apply = opt:
+        if opt != null
+        then lib.filesystem.listFilesRecursive opt
+        else [];
       description = ''
         A path which leads to a directory containing flake modules which are to
         be directly used by this flake.
@@ -60,21 +68,19 @@ in {
   };
 
   config = {
-    imports = lib.mkIf (cfg.parts != null) [
-      cfg.parts
-    ];
-
     flake.nixosConfigurations = let
       readHosts = path: lib.pipe path [
         builtins.readDir
         builtins.attrNames
-        (map (name: path + "/${name}"))
+        (map (name: {
+          name = lib.removeSuffix ".nix" name;
+          value = path + "/${name}";
+        }))
+        builtins.listToAttrs
       ];
       mkSystem = system: lib.nixosSystem {
         specialArgs = {var = cfg.vars;};
-        modules =
-          lib.filesystem.listFilesRecursive cfg.nixosModules
-          ++ [system];
+        modules = cfg.nixosModules ++ [system];
       };
     in
       lib.pipe cfg.hosts [
