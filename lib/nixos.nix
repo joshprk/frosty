@@ -78,9 +78,12 @@ in {
         }))
         builtins.listToAttrs
       ];
-      mkSystem = system: lib.nixosSystem {
+      mkSystem = hostName: system: lib.nixosSystem {
         specialArgs = {var = cfg.vars;};
-        modules = cfg.nixosModules ++ [system];
+        modules = cfg.nixosModules ++ [
+          {networking.hostName = lib.mkDefault hostName;}
+          system
+        ];
       };
     in
       lib.pipe cfg.hosts [
