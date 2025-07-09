@@ -3,7 +3,12 @@
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      perSystem = {pkgs, ...}: {
+        packages.smfh = inputs.hjem.packages.${pkgs.system}.smfh;
+      };
+
       flake.flakeModules = {
+        hjem = inputs.hjem.nixosModules.hjem;
         default = ./lib;
       };
 
@@ -16,6 +21,11 @@
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+
+    hjem = {
+      url = "github:feel-co/hjem";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 }

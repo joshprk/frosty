@@ -24,6 +24,24 @@ in {
     };
 
     nixosModules = mkOption {
+      type = with types; listOf deferredModule;
+      description = "A list of nixos modules to automatically import.";
+      default = [];
+      example = [
+        ./nixos/flake-module.nix
+      ];
+    };
+
+    homeModules = mkOption {
+      type = with types; listOf deferredModule;
+      description = "A list of home modules to automatically import for all users.";
+      default = [];
+      example = [
+        ./home/flake-module.nix
+      ];
+    };
+
+    nixos = mkOption {
       type = with types; nullOr path;
       apply = opt:
         if opt != null
@@ -72,24 +90,52 @@ in {
       readHosts = path: lib.pipe path [
         builtins.readDir
         builtins.attrNames
-        (map (name: {
-          name = lib.removeSuffix ".nix" name;
-          value = path + "/${name}";
+        (map (file: rec {
+          name = lib.removeSuffix ".nix" file;
+          value = lib.nixosSystem {
+            modules = cfg.nixosModules ++ [
+              {networking.hostName = lib.mkDefault name;}
+              config.flake.nixosModules.default
+              (path + "/${file}")
+            ];
+            specialArgs = {
+              inherit (cfg) homeModules;
+              inherit inputs;
+              var = cfg.vars;
+            };
+          };
         }))
         builtins.listToAttrs
       ];
-      mkSystem = hostName: system: lib.nixosSystem {
-        specialArgs = {var = cfg.vars;};
-        modules = cfg.nixosModules ++ [
-          {networking.hostName = lib.mkDefault hostName;}
-          system
-        ];
-      };
     in
       lib.pipe cfg.hosts [
         builtins.attrValues
         (lib.foldl (a: b: a // readHosts b) {})
-        (builtins.mapAttrs mkSystem)
       ];
+
+    flake.nixosModules.default = {
+      config,
+      lib,
+      pkgs,
+      var ? {},
+      homeModules ? [],
+      ...
+    }: {
+      imports = [
+        config.flake.nixosModules.hjem
+      ];
+
+      hjem = {
+        clobberByDefault = lib.mkDefault true;
+        extraModules = homeModules;
+        specialArgs = {inherit var;};
+        linker = lib.mkDefault inputs.hjem.packages.${pkgs.system}.smfh;
+      };
+
+      nix.settings.extra-experimental-features = lib.mkDefault [
+        "flakes"
+        "nix-command"
+      ];
+    };
   };
 }
