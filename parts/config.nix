@@ -14,7 +14,12 @@
         modules = [
           config.flake.nixosModules.default
           {networking.hostName = lib.mkDefault name;}
+          {imports = cfg.nixosModules;}
+          {hjem.extraModules = cfg.homeModules;}
           (path + "/${n}")
+          (lib.mkIf (cfg.nixos != null)
+            (lib.filesystem.listFilesRecursive cfg.nixos)
+          )
         ];
 
         specialArgs = {
@@ -27,9 +32,11 @@
     builtins.listToAttrs
   ];
 in {
+  imports = lib.optionals (cfg.parts != null) [cfg.parts];
+
   flake.nixosConfigurations = lib.pipe cfg.hosts [
     builtins.attrValues
     (map readModules)
-    (lib.foldl (a: b: a // readHosts b) {})
+    (lib.foldl (a: b: a // readModules b) {})
   ];
 }
