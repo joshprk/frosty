@@ -3,14 +3,14 @@
 
   outputs = inputs:
     inputs.flake-parts.lib.mkFlake {inherit inputs;} {
-      perSystem = {pkgs, ...}: {
-        packages.smfh = inputs.hjem.packages.${pkgs.system}.smfh;
+      flake.flakeModules = {
+        default = ./parts;
       };
 
-      flake.flakeModules = {
-        hjem = inputs.hjem.nixosModules.hjem;
-        default = ./lib;
-      };
+      flake.nixosModules.default.imports = [
+        inputs.hjem.nixosModules.hjem
+        ./nixos
+      ];
 
       systems = inputs.nixpkgs.lib.systems.flakeExposed;
     };
