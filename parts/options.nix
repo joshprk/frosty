@@ -23,15 +23,6 @@
       default = null;
     };
 
-    parts = mkOption {
-      type = with types; nullOr path;
-      description = ''
-        A path which leads to a directory containing flake modules which are to
-        be directly used by this flake.
-      '';
-      default = null;
-    };
-
     nixosModules = mkOption {
       type = with types; listOf deferredModule;
       description = "A list of nixos modules to automatically import.";

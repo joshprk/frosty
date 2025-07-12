@@ -12,7 +12,7 @@
       name = lib.removeSuffix ".nix" n;
       value = lib.nixosSystem {
         modules = [
-          config.flake.nixosModules.default
+          ../nixos
           {networking.hostName = lib.mkDefault name;}
           {imports = cfg.nixosModules;}
           {hjem.extraModules = cfg.homeModules;}
@@ -32,11 +32,9 @@
     builtins.listToAttrs
   ];
 in {
-  imports = lib.optionals (cfg.parts != null) [cfg.parts];
-
   flake.nixosConfigurations = lib.pipe cfg.hosts [
     builtins.attrValues
     (map readModules)
-    (lib.foldl (a: b: a // readModules b) {})
+    (lib.foldl (a: b: a // b) {})
   ];
 }
