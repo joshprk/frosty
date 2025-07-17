@@ -27,11 +27,6 @@ in {
       type = with types; listOf deferredModule;
       default = [];
     };
-
-    vars = mkOption {
-      type = with types; attrs;
-      default = {inherit inputs;};
-    };
   };
 
   config = {
