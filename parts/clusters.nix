@@ -13,8 +13,8 @@
       modules = lib.singleton {
         imports = cfg.modules ++ lib.singleton (path + "/${file}");
         facter.reportPath =
-          if builtins.pathExists (path + "/${file}")
-          then lib.mkDefault (path + "/${file}")
+          if builtins.pathExists (path + "/${file}/facter.json")
+          then lib.mkDefault (path + "/${file}/facter.json")
           else null;
         networking.hostName = lib.mkDefault name;
       };
