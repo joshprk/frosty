@@ -10,19 +10,24 @@
       default = [];
     };
 
-    vars.secrets = mkOption {
-      type = with types; listOf path;
-      default = [];
+    vars.identity = mkOption {
+      type = with types; nullOr path;
+      default = null;
     };
 
-    vars.identities = mkOption {
-      type = with types; listOf path;
-      default = [];
+    vars.secrets = mkOption {
+      type = with types; nullOr path;
+      default = null;
     };
 
     vars.git = mkOption {
       type = with types; nullOr str;
       default = null;
+    };
+
+    vars.persistDir = mkOption {
+      type = with types; str;
+      default = "/nix/persist";
     };
   };
 }

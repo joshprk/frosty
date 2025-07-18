@@ -12,6 +12,10 @@
       specialArgs = {inherit (cfg) vars;};
       modules = lib.singleton {
         imports = cfg.modules ++ lib.singleton (path + "/${file}");
+        facter.reportPath =
+          if builtins.pathExists (path + "/${file}")
+          then lib.mkDefault (path + "/${file}")
+          else null;
         networking.hostName = lib.mkDefault name;
       };
     };

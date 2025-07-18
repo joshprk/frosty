@@ -1,15 +1,11 @@
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  vars,
-  ...
-}: {
-  nix.settings = {
-    extra-experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-  };
+{...}: {
+  imports = [
+    ./build.nix
+    ./env.nix
+    ./kernel.nix
+    ./hjem.nix
+    ./network.nix
+    ./persist.nix
+    ./secrets.nix
+  ];
 }
